@@ -13,6 +13,7 @@ Author: **[Afaan Bilal](https://afaan.dev)**
 - [X] Cosine waves
 - [X] Amplitude control
 - [X] Frequency control
+- [X] Phase control
 
 ## Contributing
 All contributions are welcome. Please create an issue first for any feature request

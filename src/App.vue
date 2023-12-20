@@ -19,8 +19,9 @@ enum WaveType {
 const canvas = ref<HTMLCanvasElement>();
 
 const type = ref<WaveType>(WaveType.Sin);
-const amplitude = ref(60);
-const frequency = ref(3);
+const amplitude = ref(150);
+const frequency = ref(1);
+const phase = ref(0);
 
 const draw = () => {
     if (!canvas.value) return;
@@ -46,7 +47,7 @@ const draw = () => {
         c.moveTo(x, y);
         x = i;
 
-        const fv = type.value === WaveType.Sin ? Math.sin(counter) : Math.cos(counter);
+        const fv = type.value === WaveType.Sin ? Math.sin(counter + phase.value) : Math.cos(counter + phase.value);
 
         y = 360 - fv * amplitude.value;
         counter += increase;
@@ -59,26 +60,40 @@ const draw = () => {
 watch(type, draw);
 watch(amplitude, draw);
 watch(frequency, draw);
+watch(phase, draw);
 
 onMounted(draw);
 </script>
 
 <template>
-    <div class="flex flex-col">
-        <div class="text-2xl">Waves</div>
-        <div class="flex gap-1">
-            Type:
-            <select v-model="type">
-                <option value="sin">Sine</option>
-                <option value="cos">Cosine</option>
-            </select>
+    <div class="flex flex-col p-4 gap-4 h-full">
+        <div class="text-2xl font-semibold">Waves</div>
+        <div class="flex gap-4 justify-between items-center">
+            <div class="flex gap-2 items-center">
+                Type:
+                <select v-model="type">
+                    <option value="sin">Sine</option>
+                    <option value="cos">Cosine</option>
+                </select>
+            </div>
+            <div class="flex gap-2">
+                Amplitude:
+                <input v-model.number="amplitude" class="w-full" type="range" min="5" max="300">
+                ({{ amplitude }})
+            </div>
+            <div class="flex gap-2">
+                Frequency:
+                <input v-model.number="frequency" class="w-full" type="range" min="1" max="20">
+                ({{ frequency }})
+            </div>
+            <div class="flex gap-2">
+                Phase:
+                <input v-model.number="phase" class="w-full" type="range" min="0" max="20">
+                ({{ phase }})
+            </div>
         </div>
-        <div>
-            Amplitude: ({{ amplitude }}) <input v-model.number="amplitude" class="w-full" type="range" min="10" max="200">
+        <div class="flex items-center justify-center flex-1">
+            <canvas ref="canvas" width="720px" height="720px" class="border border-black" />
         </div>
-        <div>
-            Frequency: ({{ frequency }}) <input v-model.number="frequency" class="w-full" type="range" min="1" max="20">
-        </div>
-        <canvas ref="canvas" width="1000px" height="1000px" class="border" />
     </div>
 </template>
