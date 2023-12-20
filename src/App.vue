@@ -30,20 +30,31 @@ const draw = () => {
     c.clearRect(0, 0, canvas.value.width, canvas.value.height);
 
     c.beginPath();
+    c.strokeStyle = "#666666";
+    c.lineWidth = 0.8;
 
-    let i;
-    for (i = 0; i < 720; i += 20) {
+    for (let i = 0; i < 720; i += 20) {
+        i === 0 && c.fillText("0", i, 375);
+        i === 160 && c.fillText("0.5 π", i, 375);
+        i === 340 && c.fillText("π", i, 375);
+        i === 500 && c.fillText("1.5 π", i, 375);
+        i === 700 && c.fillText("2 π", i, 375);
+
         c.moveTo(i + 5, 360);
         c.lineTo(i, 360);
     }
 
     c.stroke();
 
+    c.beginPath();
+    c.strokeStyle = "#222222";
+    c.lineWidth = 1;
+
     let counter = 0, x = 0, y = 360;
 
-    //100 iterations
+    // 100 iterations
     let increase = 90 / 360 * Math.PI / 9;
-    for (i = 0; i <= 720; i += 10 / frequency.value) {
+    for (let i = 0; i <= 720; i += 10 / frequency.value) {
         c.moveTo(x, y);
         x = i;
 
@@ -54,6 +65,12 @@ const draw = () => {
 
         c.lineTo(x, y);
         c.stroke();
+
+        if (i % 180 === 0) {
+            c.moveTo(i, 360);
+            c.lineTo(x, y);
+            c.stroke();
+        }
     }
 };
 
@@ -93,7 +110,7 @@ onMounted(draw);
             </div>
         </div>
         <div class="flex items-center justify-center flex-1">
-            <canvas ref="canvas" width="720px" height="720px" class="border border-black" />
+            <canvas ref="canvas" width="720px" height="720px" class="border border-slate-300" />
         </div>
     </div>
 </template>
