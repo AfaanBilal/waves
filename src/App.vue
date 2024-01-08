@@ -121,7 +121,11 @@ onMounted(draw);
         <div class="flex items-center justify-center flex-1">
             <canvas ref="canvas" width="720px" height="720px" class="border border-slate-300" />
         </div>
-        <div class="text-center">
+        <div class="flex justify-center gap-4">
+            <a href="https://github.com/AfaanBilal/waves" target="_blank" rel="noopener" class="hover:text-blue-600">
+                Source
+            </a>
+            |
             <a href="https://afaan.dev" target="_blank" rel="noopener" class="hover:text-blue-600">
                 &copy; Afaan Bilal
             </a>
