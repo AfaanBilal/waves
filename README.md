@@ -4,7 +4,7 @@ Waves
 Author: **[Afaan Bilal](https://afaan.dev)**
 
 ## Introduction
-**Waves** is a experimental mathematical wave simulator written in Vue and Typescript with Canvas and Tailwind.
+**Waves** is an experimental mathematical wave simulator written in Vue and Typescript with Canvas and Tailwind.
 
 Try it here: **[waves.afaan.dev](https://waves.afaan.dev/)**
 
