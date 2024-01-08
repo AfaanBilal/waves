@@ -14,6 +14,7 @@ import { onMounted, ref, watch } from "vue";
 enum WaveType {
     Sin = "sin",
     Cos = "cos",
+    Tan = "tan",
 }
 
 const canvas = ref<HTMLCanvasElement>();
@@ -35,9 +36,9 @@ const draw = () => {
 
     for (let i = 0; i < 720; i += 20) {
         i === 0 && c.fillText("0", i, 375);
-        i === 160 && c.fillText("0.5 π", i, 375);
-        i === 340 && c.fillText("π", i, 375);
-        i === 500 && c.fillText("1.5 π", i, 375);
+        i === 160 && c.fillText("0.5 π", i + 10, 375);
+        i === 340 && c.fillText("π", i + 10, 375);
+        i === 500 && c.fillText("1.5 π", i + 10, 375);
         i === 700 && c.fillText("2 π", i, 375);
 
         c.moveTo(i + 5, 360);
@@ -58,7 +59,11 @@ const draw = () => {
         c.moveTo(x, y);
         x = i;
 
-        const fv = type.value === WaveType.Sin ? Math.sin(counter + phase.value) : Math.cos(counter + phase.value);
+        const fv = type.value === WaveType.Sin
+            ? Math.sin(counter + phase.value)
+            : type.value === WaveType.Cos
+                ? Math.cos(counter + phase.value)
+                : Math.tan(counter + phase.value);
 
         y = 360 - fv * amplitude.value;
         counter += increase;
@@ -83,24 +88,28 @@ onMounted(draw);
 </script>
 
 <template>
-    <div class="flex flex-col p-4 gap-4 h-full">
-        <div class="text-2xl font-semibold">Waves</div>
-        <div class="flex gap-4 justify-between items-center">
-            <div class="flex gap-2 items-center">
+    <div class="flex flex-col h-full gap-4 p-4">
+        <div class="text-2xl font-semibold text-center">Waves</div>
+        <div class="text-center text-md text-slate-600">
+            Draw sine, cosine and tangent waves and control amplitude, frequency and phase.
+        </div>
+        <div class="flex items-center justify-between gap-8 mx-auto">
+            <div class="flex items-center gap-2">
                 Type:
                 <select v-model="type">
                     <option value="sin">Sine</option>
                     <option value="cos">Cosine</option>
+                    <option value="tan">Tangent</option>
                 </select>
             </div>
             <div class="flex gap-2">
                 Amplitude:
-                <input v-model.number="amplitude" class="w-full" type="range" min="5" max="300">
+                <input v-model.number="amplitude" class="w-full" type="range" min="0" max="300">
                 ({{ amplitude }})
             </div>
             <div class="flex gap-2">
                 Frequency:
-                <input v-model.number="frequency" class="w-full" type="range" min="1" max="20">
+                <input v-model.number="frequency" class="w-full" type="range" min="0" max="20">
                 ({{ frequency }})
             </div>
             <div class="flex gap-2">
@@ -111,6 +120,11 @@ onMounted(draw);
         </div>
         <div class="flex items-center justify-center flex-1">
             <canvas ref="canvas" width="720px" height="720px" class="border border-slate-300" />
+        </div>
+        <div class="text-center">
+            <a href="https://afaan.dev" target="_blank" rel="noopener" class="hover:text-blue-600">
+                &copy; Afaan Bilal
+            </a>
         </div>
     </div>
 </template>
